@@ -8,6 +8,8 @@ exclude: true
 
 ![](/pages/matrizes/figura.png)
 
+[**Baixe o projeto no github: Link**](https://github.com/qxcodeed/matrizes)
+
 ## Assista o vídeo
 
 <iframe width="560" height="315" src="https://www.youtube.com/embed/Slds2NRYLGo" frameborder="0" allowfullscreen></iframe>
