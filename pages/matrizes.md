@@ -80,16 +80,16 @@ int contarVizAbertos(matriz<char>& mat, Par pos);
 - Faça o algoritmo de construir o labirinto perfeito usando recursão.
 
 ```c++
-void create_lab(matriz<char>& mat, Par pos){
-    verifique se por esta dentro da matriz
-    verifique se pos eh parede
-    verifique se pos pode ser furado
-        so pode ser furado se so tiver no maximo 1 vizinho aberto
-        se puder furar, fure
-        se nao, retorne
-    pegue todos os vizinhos
-    embaralhe
-    chame a recursao para cada vizinho
+void create_lab_rec(matriz<char>& mat, Par posicao){
+    se posicao esta fora da matriz
+        retorne
+    se posicao nao eh parede
+        retorne
+    se nessa posicao existe mais maximo um vizinho aberto
+        retorne
+    
+    derruba parede em posicao
+    chama a recursao aleatoriamente para todos os vizinhos
 }
 ```
 ---
@@ -100,7 +100,7 @@ void create_lab_pilha(matriz<char>& mat){
     inicie uma pilha de pares
     fure o primeiro elemento e coloque na pilha
 
-    enquanto a pilha nao estiver fazia faca{
+    enquanto a pilha nao estiver fazia faca {
         topo eh o par do topo da pilha
         pegue os vizinhos de topo que podem ser furados
             voce soh pode pegar os vizinhos que tem no maximo um lado aberto
@@ -113,11 +113,79 @@ void create_lab_pilha(matriz<char>& mat){
 }
 ```
 ---
+- Faça o algoritmo de floodfill utilizando lista, pinte
+todos os brancos proximos de vermelho.
+
+```c++
+floodfill(matchar& mat, Par pos) {
+    inicia uma fila de Pares
+    se pos eh branco
+        pinta pos
+        enfileira pos
+    enquanto fila nao vazia
+        frente = primeiro da fila
+        para todos os vizinhos de frente:
+            se eh vizinho eh branco
+                pinta vizinho
+                enfileira vizinho
+        desenfileira frente
+}
+```
+
+---
+- Faça o algoritmo de pathfinding usando o floodfill.
+
+```c++
+//interativo
+pintarPath(matriz<char>& mchar, matriz<int> mnum, Par dest){
+    auto atual = dest;
+    while(mnum[atual] != 0){
+        for(auto viz: pegar_vizinhos(atual)){
+            if(mnum[viz] == nmum[atual] - 1){
+                mchar[viz] = 'y'
+                atual = viz
+                break;
+            }
+        }
+    }
+}
+
+//recursivo
+pintarPath(matriz<char>& mchar, matriz<int> mnum, Par dest){
+    if(mnum[viz] == 0)
+        return;
+    for(auto viz : pegar_vizinhos(dest)){
+        if(mnum[viz] == mnum[dest] - 1){
+            mchar[viz] = 'y'
+            pintarPath(mchar, num, viz);
+            break;
+        }
+    }
+}
+
+pathfloodfill(matchar<char>& cmat, matriz<int>& nmat, Par inicio, Par dest) {
+    inicializa toda nmat com -1
+    inicia uma fila de Pares vazia
+    se inicio eh branco
+        cmat[inicio] = vermelho;
+        nmat[inicio] = 0
+        enfileira inicio
+    enquanto fila nao vazia
+        frente = primeiro da fila
+        para todos os vizinhos de frente:
+            se eh vizinho eh branco
+                cmat[vizinho] = vermelho
+                nmap[vizinho] = nmat[frente] + 1
+                if(vizinho == dest)
+                    return true
+                enfileira vizinho
+        desenfileira frente
+    return false
+}
+```
+
 - Resolver o labirinto usando pilha.
     - Utilize a mesma lógica da pilha para encontrar o caminho entre dois pontos dentro do lab.
 
 ---
-- Faça o algoritmo de floodfill utilizando lista.
 
----
-- Faça o algoritmo de pathfindind usando o floodfill.
