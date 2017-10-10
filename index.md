@@ -22,3 +22,6 @@ sudo apt install qtcreator qt5-default libsfml-dev
 
 ## 2. Ordenação
 [![](/pages/ordenacao/figura.png)](/pages/ordenacao.html)
+
+## 2. Simulação de Fila de Banco
+[![](/pages/banco/figura.png)](/pages/banco.html)
