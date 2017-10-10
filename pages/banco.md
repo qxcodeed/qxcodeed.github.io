@@ -11,30 +11,70 @@ exclude: true
 
 [Repositório com o código do Projeto](https://github.com/qxcodeed/simulacao_banco)
 
-Neste trabalho, nós simularemos uma fila de banco. O nosso banco tem clientes que estão sendo atendidos no caixa e clientes em espera na fila. Cada cliente tem um nível de paciência (quantidade de tempo que ele pode esperar na fila) e uma quantidade de documentos a serem processados no caixa.
+[Vídeo explicativo](https://youtu.be/onlD6FPHJvw)
 
-Você deve manter uma laço. Cada iteração representa um minuto passado no banco. A cada iteração: 
+Neste trabalho, nós simularemos uma fila de banco. O nosso banco tem clientes
+que estão sendo atendidos no caixa e clientes em espera na fila. Cada cliente
+tem um nível de paciência (quantidade de tempo que ele pode esperar na fila) e
+uma quantidade de documentos a serem processados no caixa.
 
-* Chega um número aleatório de clientes no banco que entram no fim da fila.
-* Se houverem caixas livres, os clientes da frente da fila devem ocupá-los.
-    * Os clientes na *fila* devem ter sua paciência decrementada em uma unidade.
-*  Se a paciência de um cliente na fila chegar a zero, ele deve sair da fila (o cliente desistiu de esperar). 
-* Para os clientes no caixa, cada iteração deve diminuir um na quantridade de documentos.
-    * Se o número de documentos de um cliente no caixa chegar a zero ele deve sair do banco (deixar o caixa).
+As variáveis que definem a execução são:
+- Número de caixas
+- Quantidade de clientes que chega por minuto
+- Paciencia dos clientes
+- Quantidade de documentos que o cliente trás
+- Limite máximo de pessoas no banco
 
-Cada novo cliente que chega no banco deve ter seus atributos gerados aleatoriamente. Existem 3 variáveis na simulação, o valor da *paciência*, a quantidade de *documentos* e a quantidade de *clientes* que chega por iteração.
+Cada iteração representa um minuto passado no banco. A cada iteração deve ser
+executado o seguinte pseudocódigo:
 
-Os valores devem ser gerados entre o mínimo e máximo de cada atributo aleatório. Se paciência é de [1 - 10] então cada cliente tem entre 1 e 10 de paciência. Se clientes é de [0 - 3] então chegam de 0 a 3 clientes por interação.
+### Pseudocódigo
+```
+Para cara minuto do expediente faça
+    Gerar aleatoriamente N clientes.
+    Para cada um desses N clientes faça:
+        Se ainda tiver espaço no banco:
+            Insira os clientes na fila de atendimento
+        Senão:
+            mande os clientes embora
+    Para cada cliente na FILA de atendimento faça:
+        Se cliente está sem paciência então:
+            Remover cliente da FILA e colocálo na fila de saída 
+        Senão:
+            Decrementar paciência do cliente
+    Para cada CAIXA faça:
+        Se há um cliente no caixa então:
+            Se o cliente tem algum documento para processar então:
+                Processar documento do cliente.
+            Senão:
+                Colocar o cliente na fila de saida.
+        Senão:
+            Se a FILA não está vazia então:
+                remover cliente da FILA e inserir no caixa.
+    Para cada cliente da fila de saida faça:
+        retire o cliente do banco
+Para cada cliente que ainda está no banco faça:
+    Remova o cliente do banco
+```    
 
-Ao início de cada simulação você decide o número de caixas [1 - 10], que deve permanecer o mesmo até o fim da simulação. 
+Após definido o limite de clientes no banco e a quantidade de caixas, esses
+valores permanecem fixos até o fim da simulação.
+
+Os valores que definem a chegada dos clientes ao banco são:
+- **paciencia** do cliente que chega
+- quantidade de **documentos** do cliente
+- a quantidade de **clientes** que chega por minuto.
+Esses valores podem ser fixos ou aleatórios entre um valor min e max.
 
 ## ESTRUTURAS
-A estrutura que representa o cliente é a seguinte:
+A estrutura que representa o cliente é a seguinte. O nome é gerado aleatoriamente com três chars.
+
 ```c++
     struct Cliente
     {
         int paciencia;
         int documentos;
+        string nome;
 
         Cliente(int paciencia, int documentos)
         {
@@ -44,7 +84,7 @@ A estrutura que representa o cliente é a seguinte:
     };
 ```
 
-As variáveis globais estão no arquivo globais.h. Elas guiam a simulação
+As variáveis globais estão no arquivo main.cpp. Elas guiam a simulação
 e definem parâmetros para a parte gráfica.
 
 ```c++
@@ -52,11 +92,6 @@ e definem parâmetros para a parte gráfica.
 //60 minutos x 6 horas = 360 minutos
 //cada minuto eh um turno.
 const int TURNOS_DIA = 360;
-
-//A paciencia maxima pode ser alterada.
-//Ela é usada para criar o efeito de cores
-//na visualização da simulação.
-const int MAX_PACIENCIA = 20;
 
 //A quantidade máxima de caixas não pode ser alterada.
 const int MAX_CAIXAS = 10;
@@ -68,6 +103,14 @@ const int CUSTO_CAIXA_DIA = 100;
 const int N_EXEC_TESTE = 100;
 ```
 
+O máximo de paciencia está definido no arquivo pintor.h e pode ser alterado.
+
+```c++
+//A paciencia maxima pode ser alterada.
+//Ela é usada para criar o efeito de cores
+//na visualização da simulação.
+const int MAX_PACIENCIA = 20;
+```
 
 ## VISUALIZAÇÃO
 Se você quiser ver a simumalação deverá passar duas estruturas por parâmetro à função que gera a visualização.
@@ -90,7 +133,6 @@ Crie um objeto Pintor no inicio do método main:
 e chame o método desenhar passando o vetor de clientes no caixa e a lista de clientes na fila.
 ```c++
     pintor.desenhar(caixa, fila);
-```
 
 No projeto já existe uma função chamada simulação que mostra o banco pra você.
 
