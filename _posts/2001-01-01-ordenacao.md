@@ -1,13 +1,17 @@
 ---
-layout: page
+layout: post
 title:  "Ordenação"
-categories: ed
-exclude: true
+category: 'sort'
+introduction: Selection, Bubble, Insertion, Merge e Quick.
+description:
+image: '/assets/ordenacao/figura.png'
+tags:
+- ordenação
+- recursão
 ---
 
-# Módulo de ordenação
 
-![](/pages/matrizes/figura.png)
+# Módulo de ordenação
 
 Existem duas pastas aqui. Ambos são projetos do qtcreator para serem rodados no linux. 
 A pasta projeto\_c é para quem vai implementar ordenação em c puro.

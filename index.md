@@ -1,27 +1,47 @@
 ---
-# You don't need to edit this file, it's empty on purpose.
-# Edit theme's home layout instead if you wanna make some changes
-# See: https://jekyllrb.com/docs/themes/#overriding-theme-defaults
-layout: page
+layout: main
 ---
-# Projetos de ED
 
-Aqui você encontrará várias atividades para sua disciplina de ED. As atividades que possuem geração de gráficos foram projetadas em c++ com sfml. Para instalar
-no Ubuntu 16.04 e derivados você pode rodar o seguinte comando:
-
-Escolhemos o qtcreator como ide c e c++ pela portabilidade que ela permite.
-Basta abrir o arquivo .pro que contém o projeto e executar sem precisar de
-nenhuma configuração adicional.
-
-```
-sudo apt install qtcreator qt5-default libsfml-dev
-```
-
-## 1. Matrizes
-[![](/pages/matrizes/figura.png)](/pages/matrizes.html)
-
-## 2. Ordenação
-[![](/pages/ordenacao/figura.png)](/pages/ordenacao.html)
-
-## 2. Simulação de Fila de Banco
-[![](/pages/banco/figura.png)](/pages/banco.html)
+<main class="home" id="post" role="main" itemprop="mainContentOfPage" itemscope="itemscope" itemtype="http://schema.org/Blog">
+    <div id="grid" class="row flex-grid">
+    {% for post in site.posts reversed %}
+        <article class="box-item" itemscope="itemscope" itemtype="http://schema.org/BlogPosting" itemprop="blogPost">
+            <span class="category">
+                <a href="{{ site.url }}{{ site.baseurl }}/categoria/{{ post.category }}">
+                    <span>{{ post.category }}</span>
+                </a>
+            </span>
+            <div class="box-body">
+                {% if post.image %}
+                    <div class="cover">
+                        <a href="{{ post.url | prepend: site.baseurl }}" {%if isnewpost %}class="new-post"{% endif %}>
+                            <img src="assets/img/placeholder.png" data-url="{{ post.image }}" class="preload">
+                        </a>
+                    </div>
+                {% endif %}
+                <div class="box-info">
+                    <!--
+                    <meta itemprop="datePublished" content="{{ post.date | date_to_xmlschema }}">
+                    <time itemprop="datePublished" datetime="{{ post.date | date_to_xmlschema }}" class="date">
+                        {% include date.html date=post.date %}
+                    </time>
+                    //-->
+                    <a class="post-link" href="{{ post.url | prepend: site.baseurl }}">
+                        <h2 class="post-title" itemprop="name">
+                            {{ post.title }}
+                        </h2>
+                    </a>
+                    <a class="post-link" href="{{ post.url | prepend: site.baseurl }}">
+                        <p class="description">{{ post.introduction }}</p>
+                    </a>
+                    <div class="tags">
+                        {% for tag in post.tags %}
+                            <a href="{{ site.baseurl}}/tags/#{{tag | slugify }}">{{ tag }}</a>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </article>
+    {% endfor %}
+    </div>
+</main>
