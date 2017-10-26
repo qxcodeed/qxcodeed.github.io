@@ -43,21 +43,32 @@ int main()
             if(event.type == sf::Event::Closed)
                 janela.close();
             if(event.type == sf::Event::KeyPressed){
-                if((event.key.code >= sf::Keyboard::A) &&
+                if(event.key.code == sf::Keyboard::Z){
+                    if(event.key.control)
+                        cout << "control z" << endl;
+                }
+                else if(event.key.code == sf::Keyboard::R){
+                    if(event.key.control)
+                        cout << "control r" << endl;
+                }
+                else if((event.key.code >= sf::Keyboard::A) &&
                    (event.key.code <= sf::Keyboard::Z)){
-                    char tecla = 'a' + (event.key.code - sf::Keyboard::A);
+                    char tecla = (event.key.code - sf::Keyboard::A) + 'a';
                     cout << tecla << endl;
                 }
-                if(event.key.code == sf::Keyboard::BackSpace){
-
+                else if((event.key.code == sf::Keyboard::Space)){
+                    cout << "espaco" << endl;
                 }
-                if(event.key.code == sf::Keyboard::Delete){
-
+                else if(event.key.code == sf::Keyboard::BackSpace){
+                    cout << "backspace" << endl;
                 }
-                if(event.key.code == sf::Keyboard::Left){
+                else if(event.key.code == sf::Keyboard::Delete){
+                    cout << "delete" << endl;
+                }
+                else if(event.key.code == sf::Keyboard::Left){
                     amb.cursor--;
                 }
-                if(event.key.code == sf::Keyboard::Right){
+                else if(event.key.code == sf::Keyboard::Right){
                     amb.cursor++;
                 }
             }
